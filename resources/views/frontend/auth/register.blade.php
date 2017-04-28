@@ -20,6 +20,34 @@
                     </div><!--form-group-->
 
                     <div class="form-group">
+                        {{ Form::label('designation', trans('validation.attributes.frontend.designation'), ['class' => 'col-md-4 control-label']) }}
+                        <div class="col-md-6">
+                            {{ Form::text('designation', null, ['class' => 'form-control', 'maxlength' => '191', 'required' => 'required', 'autofocus' => 'autofocus', 'placeholder' => trans('validation.attributes.frontend.designation')]) }}
+                        </div><!--col-md-6-->
+                    </div><!--form-group-->
+
+                    <div class="form-group">
+                        {{ Form::label('company_name', trans('validation.attributes.frontend.company_name'), ['class' => 'col-md-4 control-label']) }}
+                        <div class="col-md-6">
+                            {{ Form::text('company_name', null, ['class' => 'form-control', 'maxlength' => '191', 'required' => 'required', 'autofocus' => 'autofocus', 'placeholder' => trans('validation.attributes.frontend.company_name')]) }}
+                        </div><!--col-md-6-->
+                    </div><!--form-group-->
+
+                    <div class="form-group">
+                        {{ Form::label('company_description', trans('validation.attributes.frontend.company_description'), ['class' => 'col-md-4 control-label']) }}
+                        <div class="col-md-6">
+                            {{ Form::textarea('company_description', null, ['class' => 'form-control', 'cols' => '30', 'rows' => '5', 'autofocus' => 'autofocus', 'placeholder' => trans('validation.attributes.frontend.company_description')]) }}
+                        </div><!--col-md-6-->
+                    </div><!--form-group-->
+
+                    <div class="form-group">
+                        {{ Form::label('company_address', trans('validation.attributes.frontend.company_address'), ['class' => 'col-md-4 control-label']) }}
+                        <div class="col-md-6">
+                            {{ Form::textarea('company_address', null, ['class' => 'form-control', 'cols' => '30', 'rows' => '5', 'autofocus' => 'autofocus', 'placeholder' => trans('validation.attributes.frontend.company_address')]) }}
+                        </div><!--col-md-6-->
+                    </div><!--form-group-->
+
+                    <div class="form-group">
                         {{ Form::label('email', trans('validation.attributes.frontend.email'), ['class' => 'col-md-4 control-label']) }}
                         <div class="col-md-6">
                             {{ Form::email('email', null, ['class' => 'form-control', 'maxlength' => '191', 'required' => 'required', 'placeholder' => trans('validation.attributes.frontend.email')]) }}

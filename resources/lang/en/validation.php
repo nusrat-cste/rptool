@@ -156,6 +156,10 @@ return [
         'frontend' => [
             'email'                     => 'E-mail Address',
             'name'                      => 'Name',
+            'designation'               => 'Designation',
+            'company_name'              => 'Company Name',
+            'company_description'       => 'Company Description',
+            'company_address'           => 'Company Address',
             'password'                  => 'Password',
             'password_confirmation'     => 'Password Confirmation',
             'old_password'              => 'Old Password',
