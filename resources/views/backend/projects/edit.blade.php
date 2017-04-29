@@ -1,30 +1,34 @@
 @extends('backend.layouts.app')
-
-@section('page-header')
-    <h1>
-        {{ app_name() }}
-        <small>{{ trans('strings.backend.dashboard.title') }}</small>
-    </h1>
-@endsection
-
 @section('content')
-    <div class="box box-success">
-        <div class="box-header with-border">
-            <h3 class="box-title">Projects</h3>
-            <div class="box-tools pull-right">
-                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-            </div><!-- /.box tools -->
-        </div><!-- /.box-header -->
-        <div class="box-body">
 
-        {{$project->id}}<br/>
-        {{$project->project_name}}
-            <br/>
-            <button class="btn btn-primary btn-md" >
-                <i class="fa fa-plus"></i> <strong>update</strong>
-            </button>
+<h1>Editing "{{ $project->project_name }}"</h1>
+<p class="lead">Edit and save this task below, or <a href="{{ url('admin/projects')}}">go back to all tasks.</a></p>
+<hr>
 
 
-        </div><!-- /.box-body -->
-    </div><!--box box-success-->
-@endsection
+@if(Session::has('flash_message'))
+    <div class="alert alert-success">
+        {{ Session::get('flash_message') }}
+    </div>
+@endif
+
+{!! Form::model($project, [
+    'method' => 'PATCH',
+    'route' => ['admin.projects.update', $project->id]
+]) !!}
+
+<div class="form-group">
+    {!! Form::label('project_name', 'project name:', ['class' => 'control-label']) !!}
+    {!! Form::text('project_name', null, ['class' => 'form-control']) !!}
+</div>
+
+<div class="form-group">
+    {!! Form::label('additional_info', 'Description:', ['class' => 'control-label']) !!}
+    {!! Form::textarea('additional_info', null, ['class' => 'form-control']) !!}
+</div>
+
+{!! Form::submit('Update project', ['class' => 'btn btn-primary']) !!}
+
+{!! Form::close() !!}
+
+@stop

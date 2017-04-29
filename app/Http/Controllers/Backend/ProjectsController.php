@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Backend;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redirect;
+use Session;
+
+
 
 class ProjectsController extends Controller
 {
@@ -92,7 +96,21 @@ class ProjectsController extends Controller
      */
     public function update(Request $request, $id)
     {
-    
+        $project = Project::find($id);
+
+        $this->validate($request, [
+        'project_name' => 'required',
+        'additional_info' => 'required'
+    ]);
+
+    $input = $request->all();
+
+    $project->fill($input)->save();
+
+    Session::flash('flash_message', 'successfully added!');
+
+    return redirect()->back();
+    //Redirect::to('/admin/projects')->with('message', 'successfully added!');
     }
 
     /**
@@ -103,6 +121,11 @@ class ProjectsController extends Controller
      */
     public function destroy($id)
     {
-        //
-    }
+         $project = Project::findOrFail($id);
+
+            $project->delete();
+
+      Session::flash('flash_message', 'Task successfully deleted!');
+
+    return redirect('/admin/projects');}
 }

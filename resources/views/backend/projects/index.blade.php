@@ -26,7 +26,7 @@
              <a class="btn btn-primary btn-md" href="{{ url('admin/projects',$project->id) }}">
                 <i class="fa fa-plus"></i> <strong>View details</strong>
               </a >
-            <a class="btn btn-primary btn-md" href="{{ url('admin/projects/edit',$project->id) }}">
+            <a class="btn btn-primary btn-md" href="{{ url('admin/projects/'.$project->id.'/edit') }}">
                 <i class="fa fa-plus"></i> <strong>Edit</strong>
             </a>
              @endforeach

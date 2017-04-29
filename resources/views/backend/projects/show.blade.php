@@ -23,6 +23,14 @@
             <button class="btn btn-primary btn-md" >
                 <i class="fa fa-plus"></i> <strong>Add Requirement</strong>
             </button>
+            <div class="pull-right">
+                {!! Form::open([
+                    'method' => 'DELETE',
+                    'route' => ['admin.projects.destroy', $project->id]
+                ]) !!}
+                    {!! Form::submit('Delete this task?', ['class' => 'btn btn-danger']) !!}
+                {!! Form::close() !!}
+            </div>
 
 
         </div><!-- /.box-body -->
