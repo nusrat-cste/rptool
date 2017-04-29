@@ -16,15 +16,25 @@
             </div><!-- /.box tools -->
         </div><!-- /.box-header -->
         <div class="box-body">
-            <a class="btn btn-primary btn-md" href="{{ url('admin/projects/create') }}">
-                <i class="fa fa-plus"></i> <strong>Add New Project</strong>
-            </a><br/>
+            
             @foreach($projects as $project)
+            <br/>
                 <a href="{{ url('admin/projects', $project->id) }}">
                     {{ $project->project_name or '' }}
                 </a> <!-- This is the link to go to the specific project details -->
-                <br/>
-            @endforeach
+                <br/>  
+             <a class="btn btn-primary btn-md" href="{{ url('admin/projects',$project->id) }}">
+                <i class="fa fa-plus"></i> <strong>View details</strong>
+              </a >
+            <a class="btn btn-primary btn-md" href="{{ url('admin/projects/edit',$project->id) }}">
+                <i class="fa fa-plus"></i> <strong>Edit</strong>
+            </a>
+             @endforeach
+             <br/> 
+             <br/>
+              <a class="btn btn-primary btn-md" href="{{ url('admin/projects/create') }}">
+                <i class="fa fa-plus"></i> <strong>Add New Project</strong>
+            </a> 
         </div><!-- /.box-body -->
     </div><!--box box-success-->
 @endsection

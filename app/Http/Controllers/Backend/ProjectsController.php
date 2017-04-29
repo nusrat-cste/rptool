@@ -72,7 +72,15 @@ class ProjectsController extends Controller
      */
     public function edit($id)
     {
-        //
+         $data['project'] = Project::find($id);
+
+        if( ! $data['project'] instanceof Project) {
+            return 'Nothing found!';
+        }
+
+        //return $project->project_name;
+        return view('backend.projects.edit', $data);
+
     }
 
     /**
@@ -84,7 +92,7 @@ class ProjectsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+    
     }
 
     /**
