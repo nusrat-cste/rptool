@@ -107,9 +107,9 @@ class ProjectsController extends Controller
 
     $project->fill($input)->save();
 
-    Session::flash('flash_message', 'successfully added!');
+    Session::flash('flash_message', 'Project successfully Updated!');
 
-    return redirect()->back();
+    return redirect('/admin/projects');
     //Redirect::to('/admin/projects')->with('message', 'successfully added!');
     }
 

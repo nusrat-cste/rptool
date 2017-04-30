@@ -29,6 +29,16 @@
 
 {!! Form::submit('Update project', ['class' => 'btn btn-primary']) !!}
 
+ <div class="pull-right">
+                {!! Form::open([
+                    'method' => 'DELETE',
+                    'route' => ['admin.projects.destroy', $project->id]
+                ]) !!}
+                 {!! Form::submit('Delete this Project?', ['class' => 'btn btn-danger']) !!}
+                {!! Form::close() !!}
+            </div>
 {!! Form::close() !!}
+
+
 
 @stop

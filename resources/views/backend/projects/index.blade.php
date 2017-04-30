@@ -16,19 +16,17 @@
             </div><!-- /.box tools -->
         </div><!-- /.box-header -->
         <div class="box-body">
-            
+                       
+
             @foreach($projects as $project)
-            <br/>
-                <a href="{{ url('admin/projects', $project->id) }}">
-                    {{ $project->project_name or '' }}
-                </a> <!-- This is the link to go to the specific project details -->
-                <br/>  
-             <a class="btn btn-primary btn-md" href="{{ url('admin/projects',$project->id) }}">
-                <i class="fa fa-plus"></i> <strong>View details</strong>
-              </a >
-            <a class="btn btn-primary btn-md" href="{{ url('admin/projects/'.$project->id.'/edit') }}">
-                <i class="fa fa-plus"></i> <strong>Edit</strong>
-            </a>
+            <div class="box-title" style="font-size:24px": ; ><br/>
+                    <a href="{{ url('admin/projects', $project->id) }}">
+                        <strong>{{ $project->project_name or '' }}</strong>
+                        </a> <!-- This is the link to go to the specific project details -->
+            </div>
+                 <a class="btn btn-primary btn-sm" href="{{ url('admin/projects/'.$project->id.'/edit') }}">
+                        <strong>Edit</strong>
+                      </a>
              @endforeach
              <br/> 
              <br/>
