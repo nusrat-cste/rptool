@@ -27,7 +27,8 @@
     {!! Form::textarea('additional_info', null, ['class' => 'form-control']) !!}
 </div>
 
-{!! Form::submit('Update project', ['class' => 'btn btn-primary']) !!}
+{!! Form::submit('Update project', ['class' => 'btn btn-primary']) !!}           
+{!! Form::close() !!}
 
  <div class="pull-right">
                 {!! Form::open([
@@ -37,7 +38,7 @@
                  {!! Form::submit('Delete this Project?', ['class' => 'btn btn-danger']) !!}
                 {!! Form::close() !!}
             </div>
-{!! Form::close() !!}
+
 
 
 
