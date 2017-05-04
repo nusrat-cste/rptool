@@ -20,6 +20,9 @@ class CreateRequirementsTable extends Migration
             $table->text('requirements_info')->nullable();
             $table->timestamps();
         });
+        Schema::table('requirements', function (Blueprint $table) {
+                 $table->renameColumn('requirements_info', 'requirement_info');
+                    });
     }
 
     /**
@@ -30,6 +33,7 @@ class CreateRequirementsTable extends Migration
     public function down()
     {
                 Schema::dropIfExists('requirements');
-
     }
 }
+
+
