@@ -131,6 +131,7 @@ class RequirementsController extends Controller
         $data['requirement'] = $this->requirement->find($id);
         $data['project'] = $this->project->find($projectId);
 
+        $data['requirements'] = $data['project']->requirements;
 
         return view('backend.requirements.edit', $data);
     }
@@ -142,23 +143,24 @@ class RequirementsController extends Controller
      * @param  \App\Models\Requirement  $requirement
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $projectID, $id)
+    public function update(Request $request, $id)
     {
         
-        $data['requirement'] = $this->requirement->find($id);
-        $data['project'] = $this->project->find($projectId);
+        $requirement = Requirement::find($id);
+
+        //$data['requirement'] = $this->requirement->find($id);
+        //$data['project'] = $this->project->find($projectId);
 
         $this->validate($request, [
         'requirement_name' => 'required',
-        'description' => 'required'
-    ]);
+        'description' => 'required']);
 
-    $input = $request->all();
+  
+        $input = $request->all();
 
-    $requirement->fill($input)->save();
+        $requirement->fill($input)->save();
 
-    Session::flash('flash_message', 'requirement successfully Updated!');
-
+       Session::flash('flash_message', 'requirement successfully Updated!');
 
         return redirect('admin.requirements.index', $project->id); //return to show all req
     //Redirect::to('/admin/projects')->with('message', 'successfully added!');

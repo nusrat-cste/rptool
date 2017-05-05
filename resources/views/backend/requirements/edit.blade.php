@@ -2,7 +2,7 @@
 @section('content')
 
 <h1>Editing "{{ $requirement->requirement_name }}"</h1>
-<p class="lead">Edit and save this requirement below, or <a href="{{ url('admin/projects/'$project->id.'/requirements')}}">go back to all requirements.</a></p>
+<p class="lead">Edit and save this requirement below, or <a href="{{ url('admin/projects/'.$project->id.'/requirements')}}">go back to all requirements.</a></p>
 <hr>
 
 
@@ -12,30 +12,31 @@
     </div>
 @endif
 
-{!! Form::model($project, [
+{!! Form::model($requirement, [
     'method' => 'PATCH',
-    'route' => ['admin.requirements.update', $project->id]
+     'route' => [ 'admin.projects.requirements.update',$project->id,$requirement->id ]
+
 ]) !!}
 
 <div class="form-group">
-    {!! Form::label('requirement_name', 'project name:', ['class' => 'control-label']) !!}
-    {!! Form::text('project_name', null, ['class' => 'form-control']) !!}
+    {!! Form::label('requirement_name', 'requirement name:', ['class' => 'control-label']) !!}
+    {!! Form::text('requirement_name', null, ['class' => 'form-control']) !!}
 </div>
 
 <div class="form-group">
-    {!! Form::label('additional_info', 'Description:', ['class' => 'control-label']) !!}
-    {!! Form::textarea('additional_info', null, ['class' => 'form-control']) !!}
+    {!! Form::label('description', 'Description:', ['class' => 'control-label']) !!}
+    {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
 </div>
 
-{!! Form::submit('Update project', ['class' => 'btn btn-primary']) !!}           
+{!! Form::submit('Update requirement', ['class' => 'btn btn-primary']) !!}           
 {!! Form::close() !!}
 
  <div class="pull-right">
                 {!! Form::open([
                     'method' => 'DELETE',
-                    'route' => ['admin.projects.destroy', $project->id]
+                    'route' => ['admin.projects.requirements.destroy', $project->id,$requirement->id]
                 ]) !!}
-                 {!! Form::submit('Delete this Project?', ['class' => 'btn btn-danger']) !!}
+                 {!! Form::submit('Delete this requirement?', ['class' => 'btn btn-danger']) !!}
                 {!! Form::close() !!}
             </div>
 
