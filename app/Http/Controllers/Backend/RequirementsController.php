@@ -37,6 +37,21 @@ class RequirementsController extends Controller
      * @param $projectId
      * @return \Illuminate\Http\Response
      */
+    public function reprotizer($projectId){
+         $data = [
+            'requirements' => [],
+        ];
+
+        $data['project'] = $this->project->find($projectId);
+
+        if( ! $data['project'] instanceof $this->project) {
+            abort(404);
+        }
+
+        $data['requirements'] = $data['project']->requirements;
+
+        return view('backend.requirements.reprotizer', $data);
+    }
     public function index($projectId)
     {
         $data = [
@@ -112,28 +127,9 @@ class RequirementsController extends Controller
     */
     public function edit($projectId, $id)
     {
-        //$data = [
-        //'requirements' => [],
-        //];
-        //$data['project'] = $this->project->find($projectId);
-
-        //$data['requirements'] = $data['project']->requirements;
-
-        //$requirement = Requirement::find($id);
-
-        //if( ! $data['project'] instanceof $this->project) {
-        //    abort(404);
-        //}
-          $data = [
-            'requirements' => [],
-        ];
-
-        $data['project'] = Project::find($id);
-
-        //$data['topRatedProjects'] = Project::orderBy('created_at', 'desc')->limit(4)->get();
-
-        $data['requirements'] = $data['project']->requirements;
-
+        
+        $data['requirement'] = $this->requirement->find($id);
+        $data['project'] = $this->project->find($projectId);
 
 
         return view('backend.requirements.edit', $data);
@@ -149,7 +145,8 @@ class RequirementsController extends Controller
     public function update(Request $request, $projectID, $id)
     {
         
-         $requirement = Project::find($id);
+        $data['requirement'] = $this->requirement->find($id);
+        $data['project'] = $this->project->find($projectId);
 
         $this->validate($request, [
         'requirement_name' => 'required',
@@ -158,12 +155,12 @@ class RequirementsController extends Controller
 
     $input = $request->all();
 
-    $project->fill($input)->save();
+    $requirement->fill($input)->save();
 
     Session::flash('flash_message', 'requirement successfully Updated!');
 
 
-        return redirect('admin.projects.requirements.index', $project->id); //return to show all req
+        return redirect('admin.requirements.index', $project->id); //return to show all req
     //Redirect::to('/admin/projects')->with('message', 'successfully added!');
     }
 

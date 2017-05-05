@@ -50,9 +50,9 @@
             <button class="btn btn-primary btn-md" >
             <strong>ERP IMPL</strong>
             </button>
-            <button class="btn btn-primary btn-md" >
+             <a class="btn btn-primary btn-md" href="{{ url('admin/projects/'.$project->id.'/reprotizer') }}">
             <strong>Reprotizer</strong>
-            </button>
+            </a>
             <br/>
         </div><!-- /.box-body -->
         <br/>
