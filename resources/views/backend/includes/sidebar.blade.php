@@ -37,6 +37,15 @@
                 </a>
             </li>
 
+            <li class="header">{{ 'Project Panel' }}</li>
+
+            <li class="{{ active_class(Active::checkUriPattern('admin/projects')) }}">
+                <a href="{{ route('admin.projects.index') }}">
+                    <i class="fa fa-paint-brush"></i>
+                    <span>{{ trans('menus.backend.sidebar.projects') }}</span>
+                </a>
+            </li>
+
             <li class="header">{{ trans('menus.backend.sidebar.system') }}</li>
 
             @role(1)
