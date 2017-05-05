@@ -15,9 +15,9 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $data['projects'] = Project::orderBy('created_at', 'desc')->paginate(10);
+        $user =  access()->user();
 
-        $data['topRatedProjects'] = Project::orderBy('created_at', 'desc')->limit(4)->get();
+        $data['projects'] = $user->projects;
 
         return view('frontend.user.dashboard', $data);
     }
