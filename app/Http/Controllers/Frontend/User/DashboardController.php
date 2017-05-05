@@ -24,9 +24,17 @@ class DashboardController extends Controller
 
     public function projectFeedback($id)
     {
+
+         $data = [
+            'requirements' => [],
+        ];
+
         $data['project'] = Project::find($id);
 
         $data['topRatedProjects'] = Project::orderBy('created_at', 'desc')->limit(4)->get();
+
+        $data['requirements'] = $data['project']->requirements;
+
 
         return view('frontend.user.projects.feedbacks', $data);
     }

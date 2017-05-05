@@ -10,7 +10,7 @@
 @section('content')
     <div class="box box-success">
         <div class="box-header with-border">
-            <h3 class="box-title">Requirements of {{ $project->name or 'Undefined' }}</h3>
+            <h3 class="box-title">Requirements of {{ $project->project_name or 'Undefined' }}</h3>
             <div class="box-tools pull-right">
                 <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
             </div><!-- /.box tools -->
@@ -58,7 +58,9 @@
                             @endforeach
                             </tbody></table>
                     </div>
+                    </br>
                     <!-- /.box-body -->
+                        
                 </div>
 
                 <div class="box-tools">

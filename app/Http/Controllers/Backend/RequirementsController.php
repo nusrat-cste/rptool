@@ -112,19 +112,31 @@ class RequirementsController extends Controller
     */
     public function edit($projectId, $id)
     {
-        $data = [
+        //$data = [
+        //'requirements' => [],
+        //];
+        //$data['project'] = $this->project->find($projectId);
+
+        //$data['requirements'] = $data['project']->requirements;
+
+        //$requirement = Requirement::find($id);
+
+        //if( ! $data['project'] instanceof $this->project) {
+        //    abort(404);
+        //}
+          $data = [
             'requirements' => [],
         ];
 
-        $data['project'] = $this->project->find($projectId);
+        $data['project'] = Project::find($id);
 
-        if( ! $data['project'] instanceof $this->project) {
-            abort(404);
-        }
+        //$data['topRatedProjects'] = Project::orderBy('created_at', 'desc')->limit(4)->get();
 
         $data['requirements'] = $data['project']->requirements;
 
-        return view('backend.projects.requirements.edit', $data['project']);
+
+
+        return view('backend.requirements.edit', $data);
     }
 
     /**
