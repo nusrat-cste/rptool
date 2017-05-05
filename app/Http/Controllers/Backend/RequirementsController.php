@@ -109,11 +109,22 @@ class RequirementsController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Requirement  $requirement
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Requirement $requirement)
+    */
+    public function edit($projectId, $id)
     {
-        //
+        $data = [
+            'requirements' => [],
+        ];
+
+        $data['project'] = $this->project->find($projectId);
+
+        if( ! $data['project'] instanceof $this->project) {
+            abort(404);
+        }
+
+        $data['requirements'] = $data['project']->requirements;
+
+        return view('backend.projects.requirements.edit', $data['project']);
     }
 
     /**
@@ -123,9 +134,25 @@ class RequirementsController extends Controller
      * @param  \App\Models\Requirement  $requirement
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Requirement $requirement)
+    public function update(Request $request, $projectID, $id)
     {
-        //
+        
+         $requirement = Project::find($id);
+
+        $this->validate($request, [
+        'requirement_name' => 'required',
+        'description' => 'required'
+    ]);
+
+    $input = $request->all();
+
+    $project->fill($input)->save();
+
+    Session::flash('flash_message', 'requirement successfully Updated!');
+
+
+        return redirect('admin.projects.requirements.index', $project->id); //return to show all req
+    //Redirect::to('/admin/projects')->with('message', 'successfully added!');
     }
 
     /**
