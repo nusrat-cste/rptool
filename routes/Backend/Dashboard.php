@@ -8,3 +8,5 @@ Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 Route::resource('projects', 'ProjectsController');
 
 Route::resource('projects.requirements', 'RequirementsController');
+
+Route::resource('projects.stakeholders', 'StakeholdersController');
