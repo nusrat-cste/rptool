@@ -12,6 +12,7 @@
 
                     <div class="row">
 
+
                         <div class="col-md-4 col-md-push-8">
 
                             <ul class="media-list">
@@ -32,7 +33,7 @@
                                         {{ link_to_route('frontend.user.account', trans('navs.frontend.user.account'), [], ['class' => 'btn btn-info btn-xs']) }}
 
                                         @permission('view-backend')
-                                            {{ link_to_route('admin.dashboard', trans('navs.frontend.user.administration'), [], ['class' => 'btn btn-danger btn-xs']) }}
+                                        {{ link_to_route('admin.dashboard', trans('navs.frontend.user.administration'), [], ['class' => 'btn btn-danger btn-xs']) }}
                                         @endauth
                                     </div><!--media-body-->
                                 </li><!--media-->
@@ -56,33 +57,19 @@
                             </div><!--panel-->
 
                         </div><!--col-md-4-->
-
                         <div class="col-md-8 col-md-pull-4">
-
                             <div class="row">
-
-                                @foreach($projects as $project)
-                                <div class="col-md-6">
+                                <div class="col-xs-12">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
-                                            <h4> {{ $project->project_name or '(Not set)' }} </h4>
-                                            <div>
-                                                <a class="btn btn-primary btn-sm pull-right" href="{{ route('frontend.user.dashboard.project.details', $project->id) }}">
-                                                    View details <i class="fa fa-angle-double-right"></i>
-                                                </a>
-                                            </div>
+                                            <h4><strong>Project: {{ $project->project_name or '(not set)' }}</strong></h4>
                                         </div><!--panel-heading-->
 
                                         <div class="panel-body">
-                                            <p>{{ str_limit($project->additional_info, 60) }}</p>
+                                            <!-- This is the place where we will be going to add the form -->
                                         </div><!--panel-body-->
                                     </div><!--panel-->
-                                </div><!--col-md-6-->
-                                @endforeach
-
-                                <div class="pull-right">
-                                    {{ $projects->links() }}
-                                </div>
+                                </div><!--col-xs-12-->
                             </div><!--row-->
 
                         </div><!--col-md-8-->

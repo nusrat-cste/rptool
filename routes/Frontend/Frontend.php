@@ -24,6 +24,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 
         /*
+         * User Dashboard Specific
+         */
+        Route::get('projects/{id}', 'DashboardController@projectFeedback')->name('dashboard.project.details');
+
+        /*
          * User Account Specific
          */
         Route::get('account', 'AccountController@index')->name('account');
