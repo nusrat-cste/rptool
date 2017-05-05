@@ -8,4 +8,9 @@ class Project extends Model
 {
     protected $table = 'projects';
     protected $guarded = [];
+
+    public function requirements()
+    {
+        return $this->hasMany(Requirement::class);
+    }
 }

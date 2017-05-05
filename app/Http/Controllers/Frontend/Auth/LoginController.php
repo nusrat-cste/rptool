@@ -39,6 +39,10 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
+        if(access()->user()) {
+            return redirect($this->redirectPath());
+        }
+
         return view('frontend.auth.login')
             ->withSocialiteLinks((new Socialite())->getSocialLinks());
     }

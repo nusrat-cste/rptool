@@ -5,6 +5,10 @@
  * All route names are prefixed with 'frontend.'.
  */
 //Route::get('/', 'FrontendController@index')->name('index');
+
+Route::group(['middleware' => 'guest'], function () {
+    //
+});
 Route::get('/', 'Auth\LoginController@showLoginForm')->name('index');
 Route::get('macros', 'FrontendController@macros')->name('macros');
 

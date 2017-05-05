@@ -2,7 +2,7 @@
 
 @section('page-header')
     <h1>
-        <strong>{{ app_name() }}</strong>
+        <strong>RPTOOL</strong>
         <small>Admin panel</small>
     </h1>
 @endsection
@@ -10,26 +10,23 @@
 @section('content')
     <div class="box box-success">
         <div class="box-header with-border">
-            <h3 class="box-title">Project Details</h3>
+            <h3 class="box-title">Projects</h3>
             <div class="box-tools pull-right">
                 <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
             </div><!-- /.box tools -->
         </div><!-- /.box-header -->
-        <h2>Name of the Project : {{$project->project_name}}</h2><br/>
-
-        <p>{{$project->additional_info}}</p><br/>
+        <h2>{{$project->project_name}}</h2><br/>
+        {{$project->additional_info}}<br/>
         </div>
 
         <div class="box box-title">
-        <h4>Requirements of {{ $project->project_name or 'Undefined' }}</h4>
-
-            <a class="btn btn-primary btn-md" href="{{ route('admin.projects.requirements.create', $project->id) }}">
-                <i class="fa fa-plus-circle"> Add new Requirement</i>
-            </a>
-
-            <a class="btn btn-info btn-md" href="{{ route('admin.projects.requirements.index', $project->id) }}">
-                <i class="fa fa-address-book-o"> Show all Requirement</i>
-            </a>
+        <h4>Requirements</h4>
+            <button class="btn btn-primary btn-md" >
+                <i class="fa fa-plus"></i> <strong>Add Requirement</strong>
+            </button>
+            <button class="btn btn-primary btn-md" >
+                <strong>Show Requirements</strong>
+            </button>
             <br/>
         </div><!-- /.box-body -->
 

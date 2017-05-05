@@ -18,7 +18,7 @@ class CreateRequirementsTable extends Migration
             $table->integer('project_id');
             $table->string('requirement_name');
             $table->text('description');
-            $table->integer('parent_id');
+            $table->integer('parent_id')->nullable();
             $table->timestamps();
         });
     }
