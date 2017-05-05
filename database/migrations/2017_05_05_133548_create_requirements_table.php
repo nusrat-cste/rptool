@@ -14,15 +14,13 @@ class CreateRequirementsTable extends Migration
     public function up()
     {
         Schema::create('requirements', function (Blueprint $table) {
-            //
-            $table->increments('requirements_id');
-            $table->string('requirements_name');
-            $table->text('requirements_info')->nullable();
+            $table->increments('requirement_id');
+            $table->integer('project_id');
+            $table->string('requirement_name');
+            $table->text('description');
+            $table->integer('parent_id');
             $table->timestamps();
         });
-        Schema::table('requirements', function (Blueprint $table) {
-                 $table->renameColumn('requirements_info', 'requirement_info');
-                    });
     }
 
     /**
@@ -32,8 +30,6 @@ class CreateRequirementsTable extends Migration
      */
     public function down()
     {
-                Schema::dropIfExists('requirements');
+        Schema::dropIfExists('requirements');
     }
 }
-
-
