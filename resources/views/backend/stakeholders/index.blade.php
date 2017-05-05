@@ -10,7 +10,7 @@
 @section('content')
     <div class="box box-success">
         <div class="box-header with-border">
-            <h3 class="box-title">Requirements of {{ $project->project_name or 'Undefined' }}</h3>
+            <h3 class="box-title">{{ $project->project_name or 'Undefined' }}</h3>
             <div class="box-tools pull-right">
                 <a class="btn btn-warning btn-sm" href="{{ url()->previous() }}"><i class="fa fa-angle-double-left"></i> Go back</a>
                 <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -20,15 +20,15 @@
 
 
 
-            <div class="col-md-12">
+            <div class="col-md-offset-2 col-md-8">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">Showing all requirements of {{ $project->project_name or 'Undefined' }}</h3>
+                        <h3 class="box-title">Showing all stakeholders of {{ $project->project_name or 'Undefined' }}</h3>
 
                         <div class="box-tools">
 
-                            <a class="btn btn-success btn-md" href="{{ route('admin.projects.requirements.create', $project->id) }}">
-                                <i class="fa fa-plus-circle"></i> <strong>Add New Requirement</strong>
+                            <a class="btn btn-success btn-md" href="{{ route('admin.projects.stakeholders.create', $project->id) }}">
+                                <i class="fa fa-plus-circle"></i> <strong>Add New Stakeholder</strong>
                             </a>
                         </div>
                     </div>
@@ -37,31 +37,22 @@
                         <table class="table">
                             <tbody><tr>
                                 <th style="width: 10px">#</th>
-                                <th>Requirement Name</th>
-                                <th>Description</th>
-                                <th style="width: 120px">Action</th>
+                                <th>Stakeholder Name</th>
+                                <th>Stakeholder Email</th>
                             </tr>
 
-                            @foreach($requirements as $key => $requirement)
+                            @foreach($stakeholders as $key => $stakeholder)
                             <tr>
-                                <td>{{ $requirement->requirement_id }}</td>
-                                <td>{{ $requirement->requirement_name or '(Not set)' }}</td>
+                                <td>{{ ++$key }}</td>
+                                <td>{{ $stakeholder->name or '(not set)' }}</td>
                                 <td>
-                                    <span>{{ str_limit($requirement->description, 50) }}</span>
-                                </td>
-                                <td>
-                                    <a href="{{ route('admin.projects.requirements.edit', [$project->id, $requirement->requirement_id]) }}">
-                                        <span class="badge bg-aqua">Edit</span>
-                                    </a>
-                                    {{--<span class="badge bg-red">Delete</span>--}}
+                                    <span>{{ $stakeholder->email or '(not set)' }}</span>
                                 </td>
                             </tr>
                             @endforeach
                             </tbody></table>
                     </div>
-                    </br>
                     <!-- /.box-body -->
-                        
                 </div>
 
                 <div class="box-tools">

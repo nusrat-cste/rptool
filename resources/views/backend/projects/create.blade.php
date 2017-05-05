@@ -12,6 +12,7 @@
         <div class="box-header with-border">
             <h3 class="box-title">Add Projects</h3>
             <div class="box-tools pull-right">
+                <a class="btn btn-warning btn-sm" href="{{ url()->previous() }}"><i class="fa fa-angle-double-left"></i> Go back</a>
                 <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
             </div><!-- /.box tools -->
         </div><!-- /.box-header -->

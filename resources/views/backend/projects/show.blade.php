@@ -12,10 +12,11 @@
         <div class="box-header with-border">
             <h3 class="box-title">Project Details</h3>
             <div class="box-tools pull-right">
+                <a class="btn btn-warning btn-sm" href="{{ url()->previous() }}"><i class="fa fa-angle-double-left"></i> Go back</a>
                 <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
             </div><!-- /.box tools -->
         </div><!-- /.box-header -->
-        <h2>Name of the Project : {{$project->project_name}}</h2><br/>
+        <h4>Name of the Project : {{$project->project_name}}</h4>
 
         <p>{{$project->additional_info}}</p><br/>
         </div>
@@ -28,19 +29,21 @@
             </a>
 
             <a class="btn btn-info btn-md" href="{{ route('admin.projects.requirements.index', $project->id) }}">
-                <i class="fa fa-address-book-o"> Show all Requirement</i>
+                <i class="fa fa-arrow-circle-o-right"> Show all Requirements</i>
             </a>
             <br/>
         </div><!-- /.box-body -->
 
         <div class="box box-title">
         <h4>Stakeholders</h4>
-            <button class="btn btn-primary btn-md" >
-                <i class="fa fa-plus"></i> <strong>Add Stakeholders</strong>
-            </button>
-            <button class="btn btn-primary btn-md" >
-                <strong>Show Stakeholders</strong>
-            </button>
+
+            <a class="btn btn-primary btn-md" href="{{ route('admin.projects.stakeholders.create', $project->id) }}">
+                <i class="fa fa-plus-circle"> Add Stakeholder</i>
+            </a>
+
+            <a class="btn btn-warning btn-md" href="{{ route('admin.projects.stakeholders.index', $project->id) }}">
+                <i class="fa fa-address-book-o"> Show all Stakeholders</i>
+            </a>
         </div><!-- /.box-body -->
          <div class="box box-success">
             <h3>Calculate priority</h3>
