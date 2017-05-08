@@ -5,7 +5,6 @@
 <p class="lead">Edit and save this requirement below, or <a href="{{ url('admin/projects/'.$project->id.'/requirements')}}">go back to all requirements.</a></p>
 <hr>
 
-
 @if(Session::has('flash_message'))
     <div class="alert alert-success">
         {{ Session::get('flash_message') }}
@@ -14,7 +13,7 @@
 
 {!! Form::model($requirement, [
     'method' => 'PATCH',
-     'route' => [ 'admin.projects.requirements.update',$project->id,$requirement->id ]
+     'route' => [ 'admin.projects.requirements.update',$project->id,$requirement->requirement_id ]
 
 ]) !!}
 
@@ -32,13 +31,17 @@
 {!! Form::close() !!}
 
  <div class="pull-right">
-                {!! Form::open([
+                {{ Form::open(array('route' => array('admin.projects.requirements.destroy', $project->id,$requirement->requirement_id), 'method' => 'delete')) }}
+   
+                <!--{!! Form::open([
                     'method' => 'DELETE',
-                    'route' => ['admin.projects.requirements.destroy', $project->id,$requirement->id]
-                ]) !!}
+                    'route' => ['admin.projects.requirements.destroy', $project->id,$requirement->requirement_id]
+                ]) !!}-->
+
                  {!! Form::submit('Delete this requirement?', ['class' => 'btn btn-danger']) !!}
                 {!! Form::close() !!}
             </div>
+
 
 
 

@@ -92,7 +92,7 @@ class RequirementsController extends Controller
      * @param $projectId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $projectId)
+     public function store(Request $request, $projectId)
     {
         $data = $request->except('_token');
 
@@ -112,7 +112,7 @@ class RequirementsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Requirement  $requirement
+     * @param  \laravel 5 boilerplate\Models\Requirement  $requirement
      * @return \Illuminate\Http\Response
      */
     public function show(Requirement $requirement)
@@ -123,12 +123,13 @@ class RequirementsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Requirement  $requirement
+     * @param  \laravel 5 boilerplate\Models\Requirement  $requirement
     */
     public function edit($projectId, $id)
     {
         
         $data['requirement'] = $this->requirement->find($id);
+
         $data['project'] = $this->project->find($projectId);
 
         $data['requirements'] = $data['project']->requirements;
@@ -140,40 +141,41 @@ class RequirementsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Requirement  $requirement
+     * @param  \laravel 5 boilerplate\Models\Requirement  $requirement
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $projectId, $id)
     {
-        
-        $requirement = Requirement::find($id);
+        $requirement = $this->requirement->find($id);
+        $project = $this->project->find($projectId);
 
-        //$data['requirement'] = $this->requirement->find($id);
-        //$data['project'] = $this->project->find($projectId);
 
-        $this->validate($request, [
-        'requirement_name' => 'required',
-        'description' => 'required']);
-
-  
         $input = $request->all();
 
         $requirement->fill($input)->save();
 
+
        Session::flash('flash_message', 'requirement successfully Updated!');
 
-        return redirect('admin.requirements.index', $project->id); //return to show all req
+        return redirect()->route('admin.projects.requirements.index', $project->id)->with('flash_message', 'requirement successfully Updated!'); //return to show all req
     //Redirect::to('/admin/projects')->with('message', 'successfully added!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Requirement  $requirement
+     * @param  \laravel 5 boilerplate\Models\Requirement  $requirement
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Requirement $requirement)
+    public function destroy($projectId, $id)
     {
-        //
+
+        $project = $this->project->find($projectId);
+        $requirement = $this->requirement->find($id);
+
+            $requirement->delete();
+//
+      return redirect()->route('admin.projects.requirements.destroy', $project->id)->with('flash_message', 'requirement successfully deleted!'); //return to show all req
+    //Redirect::to('/admin/projects')->with('message', 'successfully added!');
     }
 }

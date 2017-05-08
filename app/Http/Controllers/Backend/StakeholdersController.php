@@ -76,7 +76,7 @@ class StakeholdersController extends Controller
                 $q->where('projects_stakeholders.project_id', $projectId);
         })->get();
 
-        if(count($data['stakeholders']) < 1) {
+        if(count($data['stakeholders']) < 0) {
 
             return redirect()->back()->with('flash_warning', 'All stakeholders are added already!');
         }
