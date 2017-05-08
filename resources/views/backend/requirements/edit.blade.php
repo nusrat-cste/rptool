@@ -32,11 +32,6 @@
 
  <div class="pull-right">
                 {{ Form::open(array('route' => array('admin.projects.requirements.destroy', $project->id,$requirement->requirement_id), 'method' => 'delete')) }}
-   
-                <!--{!! Form::open([
-                    'method' => 'DELETE',
-                    'route' => ['admin.projects.requirements.destroy', $project->id,$requirement->requirement_id]
-                ]) !!}-->
 
                  {!! Form::submit('Delete this requirement?', ['class' => 'btn btn-danger']) !!}
                 {!! Form::close() !!}

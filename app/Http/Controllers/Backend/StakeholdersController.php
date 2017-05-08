@@ -17,29 +17,40 @@ class StakeholdersController extends Controller
      * @var User
      */
     private $stakeholder;
-
+    /**
+     * @var User
+     */
+    private $projects_stakeholder;
     /**
      * RequirementsController constructor.
      * @param Project $project
      * @param User $stakeholder
+    * @param User $projects_stakeholder
      * @internal param Requirement $requirement
      */
-    public function __construct(Project $project, User $stakeholder)
+    public function __construct(Project $project, User $stakeholder, User $projects_stakeholder)
     {
         $this->project = $project;
         $this->stakeholder = $stakeholder;
+        $this->projects_stakeholder = $projects_stakeholder;
     }
 
     /**
      * Display a listing of the resource.
      *
      * @param $projectId
+     * @param  int  $id
+
      * @return \Illuminate\Http\Response
      */
     public function index($projectId)
     {
         $data = [
             'stakeholders' => [],
+        ];
+
+        $data = [
+            'projects_stakeholder' => [],
         ];
 
         $data['project'] = $this->project->find($projectId);
@@ -49,6 +60,8 @@ class StakeholdersController extends Controller
         }
 
         $data['stakeholders'] = $data['project']->stakeholders;
+        $data['projects_stakeholder'] = $data['project']->projects_stakeholder;
+
 
         return view('backend.stakeholders.index', $data);
     }
@@ -57,6 +70,7 @@ class StakeholdersController extends Controller
      * Show the form for creating a new resource.
      *
      * @param $projectId
+
      * @return \Illuminate\Http\Response
      */
     public function create($projectId)
@@ -103,6 +117,7 @@ class StakeholdersController extends Controller
 
         $project->stakeholders()->sync($input['stakeholders']);
 
+
         return redirect()->route('admin.projects.stakeholders.index', $project->id)->with('flash_success', 'New Stakeholders added successfully!');
     }
 
@@ -123,9 +138,16 @@ class StakeholdersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($projectId, $id)
     {
         //
+        $data['stakeholder'] = $this->stakeholder->find($id);
+
+        $data['project'] = $this->project->find($projectId);
+
+        //return view('backend.stakeholders.edit', $data);
+
+        return 1;
     }
 
     /**
@@ -146,8 +168,15 @@ class StakeholdersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($projectId,$id)
     {
         //
+        $project = $this->project->find($projectId);
+        $stakeholder = $this->stakeholder->find($id);
+
+        $stakeholder->delete();
+//
+      return redirect()->route('admin.projects.stakeholders.destroy', $project->id)->with('flash_message', 'stakeholder successfully removed from this project!'); //return to show all req
+
     }
 }

@@ -37,6 +37,7 @@
                         <table class="table">
                             <tbody><tr>
                                 <th style="width: 10px">#</th>
+                                <th>stakeholder id</th>
                                 <th>Stakeholder Name</th>
                                 <th>Stakeholder Email</th>
                             </tr>
@@ -44,9 +45,17 @@
                             @foreach($stakeholders as $key => $stakeholder)
                             <tr>
                                 <td>{{ ++$key }}</td>
+                                <td>{{$stakeholder->stakeholder_id}} </td> <!-- Stakeholder id????-->
                                 <td>{{ $stakeholder->name or '(not set)' }}</td>
                                 <td>
                                     <span>{{ $stakeholder->email or '(not set)' }}</span>
+                                </td>
+                                
+                                 <td>
+                                    <a href="{{ route('admin.projects.stakeholders.edit', [$project->id, $stakeholder->stakeholder_id]) }}">
+                                        <span class="badge bg-aqua">remove from this project</span>
+                                    </a>
+                                    {{--<span class="badge bg-red">Delete</span>--}}
                                 </td>
                             </tr>
                             @endforeach
