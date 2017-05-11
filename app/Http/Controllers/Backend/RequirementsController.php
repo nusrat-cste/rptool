@@ -53,6 +53,22 @@ class RequirementsController extends Controller
         return view('backend.requirements.reprotizer', $data);
     }
 
+    public function erpimpl($projectId){
+         $data = [
+            'requirements' => [],
+        ];
+
+        $data['project'] = $this->project->find($projectId);
+
+        if( ! $data['project'] instanceof $this->project) {
+            abort(404);
+        }
+
+        $data['requirements'] = $data['project']->requirements;
+        
+        return view('backend.requirements.erpimpl', $data);
+    }
+
 
     public function index($projectId)
     {

@@ -47,9 +47,9 @@
         </div><!-- /.box-body -->
          <div class="box box-success">
             <h3>Calculate priority</h3>
-            <button class="btn btn-primary btn-md" >
+            <a class="btn btn-primary btn-md" href="{{ url('admin/projects/'.$project->id.'/erpimpl') }}">
             <strong>ERP IMPL</strong>
-            </button>
+            </a>
              <a class="btn btn-primary btn-md" href="{{ url('admin/projects/'.$project->id.'/reprotizer') }}">
             <strong>Reprotizer</strong>
             </a>
