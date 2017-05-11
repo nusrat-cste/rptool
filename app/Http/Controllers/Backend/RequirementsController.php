@@ -49,9 +49,11 @@ class RequirementsController extends Controller
         }
 
         $data['requirements'] = $data['project']->requirements;
-
+        
         return view('backend.requirements.reprotizer', $data);
     }
+
+
     public function index($projectId)
     {
         $data = [
