@@ -16,7 +16,7 @@ class CreateRequirementsStakeholdersTable extends Migration
         Schema::create('requirements_stakeholders', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('requirement_id');
-            $table->integer('stackholder_id');
+            $table->integer('stakeholder_id');
             $table->integer('project_id');
             $table->string('weight')->nullable();
             $table->string('business_value')->nullable();

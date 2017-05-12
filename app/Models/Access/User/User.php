@@ -3,6 +3,7 @@
 namespace App\Models\Access\User;
 
 use App\Models\Project;
+use App\Models\Requirement;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Access\User\Traits\UserAccess;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -63,5 +64,10 @@ class User extends Authenticatable
     public function projects()
     {
         return $this->belongsToMany(Project::class, 'projects_stakeholders', 'stakeholder_id', 'project_id');
+    }
+
+    public function requirements()
+    {
+        return $this->belongsToMany(Requirement::class, 'requirements_stakeholders', 'stakeholder_id', 'requirement_id');
     }
 }

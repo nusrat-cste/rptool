@@ -17,4 +17,9 @@ class Requirement extends Model
         return $this->belongsTo(Project::class);
     }
 
+    public function stakeholders()
+    {
+        return $this->belongsToMany(Access\User\User::class, 'requirements_stakeholders', 'requirement_id', 'stakeholder_id');
+    }
+
 }

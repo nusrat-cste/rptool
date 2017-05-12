@@ -28,6 +28,8 @@ Route::group(['middleware' => 'auth'], function () {
          */
         Route::get('projects/{id}', 'DashboardController@projectFeedback')->name('dashboard.project.details');
 
+        Route::post('projects/{id}', 'DashboardController@feedbackByUser')->name('dashboard.project.feedback');
+
         /*
          * User Account Specific
          */

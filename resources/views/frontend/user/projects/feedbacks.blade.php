@@ -24,69 +24,7 @@
                                         <div class="panel-body">
                                             <!-- This is the place where we will be going to add the form -->
 
-<form action="{{ url('...') }}" method="POST">
-
-     <table>
-          <tr>
-            <th>Requirements</th>
-            <th>Business value</th>
-            <th>Effort</th>
-            <th>Alternatives</th>
-            <th>Reusability</th>
-            <th>Priority No.</th>
-          </tr>
-
-           @foreach($requirements as $requirement)
-           <tr>
-            <td>
-            <strong>{{$requirement -> requirement_name}}</strong>
-            </td>
-            <td>
-            <form>
-            <strong>
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <input type="text" name="business_value" >
-              </form>
-            </strong>
-            </td>
-            <td>
-            <form>
-           <strong>
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <input type="text" name="effort" >
-              </form>
-            </strong>
-            </td>
-             <td>
-             <form>
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <input type="text" name="alternatives" >
-              </form>
-            </strong>
-            </td>
-             <td>
-           <strong>
-              <form >
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <input type="text" name="reusability" >
-              </form>
-            </strong>
-            </td>
-             <td>
-           <strong>
-              <form>
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <input type="text" name="weight" >
-              </form>
-            </strong>
-            </td>
-  
-          </tr>
-          @endforeach
-          </table>
-         <input type="submit" value="Submit">
-
-      </form>
+                                            @include('frontend.user.projects.feedback-form')
                                               
                                         </div><!--panel-body-->
                                     </div><!--panel-->
@@ -108,24 +46,5 @@
 
 @section('after-styles')
 <style>
-  table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
-input {
-   width: 60px;
-   height: 25px;
- }
 </style>
 @endsection
