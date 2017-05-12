@@ -89,7 +89,7 @@ class StakeholdersController extends Controller
                 $q->where('projects_stakeholders.project_id', $projectId);
         })->get();
 
-        if(count($data['stakeholders']) < 0) {
+        if(count($data['stakeholders']) < 1) {
 
             return redirect()->back()->with('flash_warning', 'All stakeholders are added already!');
         }
@@ -114,7 +114,7 @@ class StakeholdersController extends Controller
 
         $input = $request->except('_token');
 
-        $project->stakeholders()->sync($input['stakeholders']);
+        $project->stakeholders()->syncWithoutDetaching($input['stakeholders']);
 
 
         return redirect()->route('admin.projects.stakeholders.index', $project->id)->with('flash_success', 'New Stakeholders added successfully!');
