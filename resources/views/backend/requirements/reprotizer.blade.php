@@ -3,7 +3,7 @@
 @section('page-header')
    <h1>
         <strong>{{ app_name() }}</strong>
-        <small>Admin panel</small>
+        <small>Reprotizer</small>
     </h1>
 @endsection
 
