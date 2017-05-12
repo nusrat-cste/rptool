@@ -34,32 +34,44 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body no-padding">
-                        <table class="table">
-                            <tbody><tr>
-                                <th style="width: 10px">#</th>
-                                <th>stakeholder id</th>
-                                <th>Stakeholder Name</th>
-                                <th>Stakeholder Email</th>
-                            </tr>
 
-                            @foreach($stakeholders as $key => $stakeholder)
-                            <tr>
-                                <td>{{ ++$key }}</td>
-                                <td>{{$stakeholder->stakeholder_id}} </td> <!-- Stakeholder id????-->
-                                <td>{{ $stakeholder->name or '(not set)' }}</td>
-                                <td>
-                                    <span>{{ $stakeholder->email or '(not set)' }}</span>
-                                </td>
-                                
-                                 <td>
-                                    <a href="{{ route('admin.projects.stakeholders.edit', [$project->id, $stakeholder->stakeholder_id]) }}">
-                                        <span class="badge bg-aqua">remove from this project</span>
-                                    </a>
-                                    {{--<span class="badge bg-red">Delete</span>--}}
-                                </td>
-                            </tr>
-                            @endforeach
-                            </tbody></table>
+                        @if(count($stakeholders) > 0)
+                        <table class="table">
+                                <tbody><tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>Stakeholder Name</th>
+                                    <th>Stakeholder Email</th>
+                                </tr>
+
+                                @foreach($stakeholders as $key => $stakeholder)
+                                <tr>
+                                    <td>{{ ++$key }}</td>
+                                    <td>{{ $stakeholder->name or '(not set)' }}</td>
+                                    <td>
+                                        <span>{{ $stakeholder->email or '(not set)' }}</span>
+                                    </td>
+
+                                     <td>
+                                         <form action="{{ route('admin.projects.stakeholders.destroy', [ $project->id, $stakeholder->id ]) }}" method="post">
+                                             <input type="hidden" name="_method" value="DELETE" />
+                                             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                                             <input class="btn btn-sm btn-danger" type="submit" value="Remove">
+                                         </form>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        @else
+                            <br>
+                            <div class="col-md-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <p>Currently, there is no stakeholders for this project. <a href="{{ route('admin.projects.stakeholders.create', $project->id) }}">Add one</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                     <!-- /.box-body -->
                 </div>

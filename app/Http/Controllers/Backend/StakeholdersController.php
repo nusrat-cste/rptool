@@ -60,7 +60,6 @@ class StakeholdersController extends Controller
         }
 
         $data['stakeholders'] = $data['project']->stakeholders;
-        $data['projects_stakeholder'] = $data['project']->projects_stakeholder;
 
 
         return view('backend.stakeholders.index', $data);
@@ -171,12 +170,13 @@ class StakeholdersController extends Controller
     public function destroy($projectId,$id)
     {
         //
-        $project = $this->project->find($projectId);
-        $stakeholder = $this->stakeholder->find($id);
+        $project = $this->project->findOrFail($projectId);
 
-        $stakeholder->delete();
-//
-      return redirect()->route('admin.projects.stakeholders.destroy', $project->id)->with('flash_message', 'stakeholder successfully removed from this project!'); //return to show all req
+        // Detach a single stakeholder from the project...
+        $project->stakeholders()->detach($id);
+
+        return redirect()->back()
+                        ->with('flash_info', 'stakeholder successfully removed from this project!');
 
     }
 }
