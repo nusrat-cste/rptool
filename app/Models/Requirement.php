@@ -22,11 +22,10 @@ class Requirement extends Model
         return $this->belongsTo(Feedback::class, 'requirement_id', 'requirement_id');
     }
 
-    public function stakeholders($projectId)
+    public function stakeholders()
     {
         return $this->belongsToMany(Access\User\User::class, 'requirements_stakeholders', 'requirement_id', 'stakeholder_id')
-                    ->withPivot('weight', 'business_value', 'reusability', 'effort', 'alternatives')
-                    ->wherePivotIn('project_id', $projectId);
+                    ->withPivot('weight', 'business_value', 'reusability', 'effort', 'alternatives');
     }
 
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Feedback;
 use App\Models\Requirement;
 use Illuminate\Http\Request;
 use App\Models\Project;
@@ -41,13 +42,15 @@ class DashboardController extends Controller
 
         $data['requirements'] = $data['project']->requirements;
 
+        $userId = access()->user()->id;
 
-        foreach ($data['requirements'] as $requirement) {
-            if(count($requirement->feedbacks)) {
-                $data['feedbacks'][] = $requirement->feedbacks;
-            }
+        $feedbacks = Feedback::where('stakeholder_id', $userId)
+                                ->where('project_id', $id)
+                                ->get();
+
+        if (count($feedbacks)) {
+            $data['feedbacks'] = $feedbacks;
         }
-//        dd($data);
 
         return view('frontend.user.projects.feedbacks', $data);
     }
