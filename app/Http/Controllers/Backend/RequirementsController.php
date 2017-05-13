@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\Feedback;
 use App\Models\Project;
 use App\Models\Requirement;
 use Illuminate\Http\Request;
@@ -49,7 +50,75 @@ class RequirementsController extends Controller
         }
 
         $data['requirements'] = $data['project']->requirements;
-        
+        $data['stakeholders'] = $data['project']->stakeholders;
+
+        $noS    = count($data['project']->stakeholders); //number of stakeholder - assume 3
+        $noR    = count($data['project']->requirements); //number of requirements - assume 4
+
+        $feedbacks = $data['project']->feedbacks;
+
+        foreach ($feedbacks as $feedback) {
+            $weights[$feedback->stakeholder_id][] = $feedback->weight;
+        }
+
+        $weights = array_values($weights);
+
+        $sumArray = [];
+        $rowSum=[];
+
+        // currently, this code is only work if all the stakeholder submit
+        // their feedback for all the requirements of a specific project
+
+        for ($row = 0; $row < $noS; $row++)  //row=number of stakeholder
+        {
+            $tempSum=0;
+            echo "</br>";
+            for ($col = 0; $col < $noR; $col++) //col=number of requirements
+            {
+                $temp=$weights[$row][$col]*3;
+                $div = $temp/4;
+                //$temp=$temp*$temp;
+                $weights[$row][$col] = $div;
+                $square=$weights[$row][$col] *$weights[$row][$col] ;
+                $sumArray[$row][$col]=$square;
+                //echo $sumArray[$row][$col];
+
+                $tempSum += $square;
+
+                echo " ";
+                //echo "tempsum = ".$tempSum;
+            }
+
+            $rowsum[$row]=$tempSum;
+            for($k = 0; $k< $noR ; $k++){          //k=number of requirements
+                //echo " ".$sumArray[$row][$k];
+                $tempVal=$sumArray[$row][$k] / $rowsum[$row];
+                $sumArray[$row][$k] = $tempVal;
+
+                $number=$sumArray[$row][$k];
+                $precision = 3;
+
+                //echo " ";
+                //echo substr(number_format($number, $precision+1, '.', ''), 0, -1);
+            }
+        }
+
+        for($i=0; $i< $noR; $i++){          //i=number of requirements
+            $Sum = 0;
+            for($j=0; $j< $noS; $j++){      //j=number of stakeholders
+                $Sum += $sumArray[$j][$i];
+            }
+            $sumArry[$i] = $Sum;
+            //echo $sumArry[$i]." ";
+            $final[$i]=$sumArry[$i];
+            //echo $final[$i];
+            sort($final);
+        }
+
+        $data['noR']        = $noR;
+        $data['final']      = $final;
+        $data['precision']  = $precision;
+
         return view('backend.requirements.reprotizer', $data);
     }
 
