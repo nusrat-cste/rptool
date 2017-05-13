@@ -4,6 +4,7 @@ namespace App\Models\Access\User;
 
 use App\Models\Project;
 use App\Models\Requirement;
+use App\Models\Feedback;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Access\User\Traits\UserAccess;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -66,8 +67,14 @@ class User extends Authenticatable
         return $this->belongsToMany(Project::class, 'projects_stakeholders', 'stakeholder_id', 'project_id');
     }
 
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class, 'stakeholder_id');
+    }
+
     public function requirements()
     {
-        return $this->belongsToMany(Requirement::class, 'requirements_stakeholders', 'stakeholder_id', 'requirement_id');
+        return $this->belongsToMany(Requirement::class, 'requirements_stakeholders', 'stakeholder_id', 'requirement_id')
+                    ->withTimestamps();
     }
 }

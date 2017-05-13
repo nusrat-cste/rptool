@@ -33,10 +33,21 @@ class DashboardController extends Controller
 
         $data['project'] = Project::find($id);
 
-        $data['topRatedProjects'] = Project::orderBy('created_at', 'desc')->limit(4)->get();
+        if (\Auth::check()) {
+            $user = access()->user();
+        } else {
+            throw new \Exception('User is not logged in!');
+        }
 
         $data['requirements'] = $data['project']->requirements;
 
+
+        foreach ($data['requirements'] as $requirement) {
+            if(count($requirement->feedbacks)) {
+                $data['feedbacks'][] = $requirement->feedbacks;
+            }
+        }
+//        dd($data);
 
         return view('frontend.user.projects.feedbacks', $data);
     }
@@ -68,16 +79,17 @@ class DashboardController extends Controller
             foreach ($requirementIdArray as $requirementId) {
                 $key = array_search($requirementId, $requirementIdArray);
 
-                $requirementData['project_id']        = $id;
-                $requirementData['business_value']    = $businessValueArray[$key];
-                $requirementData['effort']            = $effortArray[$key];
-                $requirementData['alternatives']      = $alternativesArray[$key];
-                $requirementData['reusability']       = $reusabilityArray[$key];
-                $requirementData['weight']            = $weightArray[$key];
+                $requirementData[$requirementId] = [];
 
-                $user->requirements()->attach($requirementId, $requirementData);
+                $requirementData[$requirementId]['project_id']        = $id;
+                $requirementData[$requirementId]['business_value']    = $businessValueArray[$key];
+                $requirementData[$requirementId]['effort']            = $effortArray[$key];
+                $requirementData[$requirementId]['alternatives']      = $alternativesArray[$key];
+                $requirementData[$requirementId]['reusability']       = $reusabilityArray[$key];
+                $requirementData[$requirementId]['weight']            = $weightArray[$key];
             }
 
+            $user->requirements()->wherePivot('project_id', $project->id)->sync($requirementData);
         } else {
             throw new \Exception('You are not supposed to do that!');
         }

@@ -6,7 +6,6 @@
         <table class="table table-bordered table-striped">
             <thead>
                 <tr class="warning">
-                    <th>#</th>
                     <th width="30%">Requirements</th>
                     <th>Business value</th>
                     <th>Effort</th>
@@ -19,33 +18,31 @@
             <tbody>
                 @foreach($requirements as $key => $requirement)
                     <tr>
-                        <td>
-                            {{ ++$key }}
-                        </td>
                         <td width="30%">
                             <input type="hidden" name="requirement_id[]" value="{{ $requirement->requirement_id }}">
                             <strong>{{$requirement -> requirement_name}}</strong>
                         </td>
                         <td>
-                            <input class="form-control" type="text" placeholder="Enter value" name="business_value[]" />
+                            <input class="form-control" type="text" placeholder="Enter value"
+                                   name="business_value[]"
+                                   value="{{ (isset($feedbacks) && $feedbacks[$key]->requirement_id == $requirement->requirement_id) ? $feedbacks[$key]->business_value : '' }}" />
                         </td>
                         <td>
-                            <input class="form-control" type="text" placeholder="Enter value" name="effort[]" />
+                            <input class="form-control" type="text" placeholder="Enter value"
+                                   name="effort[]"
+                                   value="{{ (isset($feedbacks) && $feedbacks[$key]->requirement_id == $requirement->requirement_id) ? $feedbacks[$key]->effort : '' }}" />
                         </td>
                         <td>
-                            <input class="form-control" type="text" placeholder="Enter value" name="alternatives[]" />
+                            <input class="form-control" type="text" placeholder="Enter value" name="alternatives[]"
+                                   value="{{ (isset($feedbacks) && $feedbacks[$key]->requirement_id == $requirement->requirement_id) ? $feedbacks[$key]->alternatives : '' }}" />
                         </td>
                         <td>
-                            <input class="form-control" type="text" placeholder="Enter value" name="reusability[]" />
+                            <input class="form-control" type="text" placeholder="Enter value" name="reusability[]"
+                                   value="{{ (isset($feedbacks) && $feedbacks[$key]->requirement_id == $requirement->requirement_id) ? $feedbacks[$key]->reusability : '' }}" />
                         </td>
                         <td class="info">
-                            <select class="form-control match-content" name="weight[]">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3" selected>3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select>
+                            {!! Form::select('weight[]', [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5], (isset($feedbacks) && $feedbacks[$key]->requirement_id == $requirement->requirement_id) ? $feedbacks[$key]->weight : 3, ['class' => 'form-control match-content']) !!}
+
                         </td>
                     </tr>
                 @endforeach
