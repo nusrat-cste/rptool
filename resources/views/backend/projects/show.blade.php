@@ -45,6 +45,16 @@
                 <i class="fa fa-address-book-o"> Show all Stakeholders</i>
             </a>
         </div><!-- /.box-body -->
+
+          <div class="box box-success">
+            <h3>ERP IMPL form</h3>
+            <a class="btn btn-primary btn-md" href="{{ url('admin/projects/'.$project->id.'/erpimplform') }}">
+            <strong>ERP IMPL</strong>
+            </a>
+            <br/>
+        </div><!-- /.box-body -->
+        <br/>
+        
          <div class="box box-success">
             <h3>Calculate priority</h3>
             <a class="btn btn-primary btn-md" href="{{ url('admin/projects/'.$project->id.'/erpimpl') }}">
@@ -55,12 +65,8 @@
             </a>
             <br/>
         </div><!-- /.box-body -->
-        <br/>
-        <div class="pull-right">
-        <button class="btn btn-primary btn-lg" >
-            <strong>Requirement Prioritization Form</strong>
-            </button>
-        </div>
+
+        
 
     <!--box box-success-->
 @endsection

@@ -10,7 +10,9 @@
 @section('content')
     <div class="box box-success">
         <div class="box-header with-border">
-            <h3 class="box-title">Prioritized requirements of {{ $project->project_name or 'Undefined' }}</h3>
+            <h3 class="box-title">Prioritized requirements of {{ $project->project_name or 'Undefined' }}</h3>              
+
+
             <div class="box-tools pull-right">
                 <a class="btn btn-warning btn-sm" href="{{ url()->previous() }}"><i class="fa fa-angle-double-left"></i> Go back</a>
                 <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -23,7 +25,7 @@
                     <h4>Prioritized list</h4>
                         @for($i = $noR - 1; $i>=0; $i--)    <!-- i=numofrequirement-1 -->
                             <br/>
-                            {{ substr(number_format($final[$i], $precision+1, '.', ''), 0, -1) }}
+                         {{ substr(number_format($final[$i], $precision+1, '.', ''), 0, -1) }}
                         @endfor
                 </div>
 

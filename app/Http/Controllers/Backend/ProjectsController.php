@@ -63,7 +63,7 @@ class ProjectsController extends Controller
         if( ! $data['project'] instanceof Project) {
             return 'Nothing found!';
         }
-
+        
         //return $project->project_name;
         return view('backend.projects.show', $data);
     }

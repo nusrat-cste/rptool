@@ -36,6 +36,30 @@ class RequirementsController extends Controller
      * Display a listing of the resource.
      *
      * @param $projectId
+
+     * @return \Illuminate\Http\Response
+     */
+    public function erpimplform($projectId){
+        $data = [
+            'requirements' => [],
+        ];
+
+        $data['project'] = $this->project->find($projectId);
+
+        if( ! $data['project'] instanceof $this->project) {
+            abort(404);
+        }
+
+        $data['requirements'] = $data['project']->requirements;
+        return view('backend.requirements.erpimplform', $data);
+
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param $projectId
+
      * @return \Illuminate\Http\Response
      */
     public function reprotizer($projectId){
@@ -52,6 +76,7 @@ class RequirementsController extends Controller
         $data['requirements'] = $data['project']->requirements;
         $data['stakeholders'] = $data['project']->stakeholders;
 
+
         $noS    = count($data['project']->stakeholders); //number of stakeholder - assume 3
         $noR    = count($data['project']->requirements); //number of requirements - assume 4
 
@@ -66,7 +91,7 @@ class RequirementsController extends Controller
         $sumArray = [];
         $rowSum=[];
 
-        // currently, this code is only work if all the stakeholder submit
+        // currently, this code only works if all the stakeholder submit
         // their feedback for all the requirements of a specific project
 
         for ($row = 0; $row < $noS; $row++)  //row=number of stakeholder
@@ -114,7 +139,7 @@ class RequirementsController extends Controller
             //echo $final[$i];
             sort($final);
         }
-
+        //$data['req_names']  =$req_names;
         $data['noR']        = $noR;
         $data['final']      = $final;
         $data['precision']  = $precision;
@@ -123,7 +148,7 @@ class RequirementsController extends Controller
     }
 
     public function erpimpl($projectId){
-         $data = [
+          $data = [
             'requirements' => [],
         ];
 
@@ -134,6 +159,13 @@ class RequirementsController extends Controller
         }
 
         $data['requirements'] = $data['project']->requirements;
+       // $data['stakeholders'] = $data['project']->stakeholders;
+
+
+       // $noS    = count($data['project']->stakeholders); //number of stakeholder - assume 3
+        $noR    = count($data['project']->requirements); //number of requirements - assume 4
+
+    
         
         return view('backend.requirements.erpimpl', $data);
     }

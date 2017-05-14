@@ -5,6 +5,8 @@
  */
 Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 
+Route::get('projects/{id}/erpimplform', 'RequirementsController@erpimplform')->name('erpimplform');
+
 Route::get('projects/{id}/reprotizer', 'RequirementsController@reprotizer')->name('reprotizer');
 
 Route::get('projects/{id}/erpimpl', 'RequirementsController@erpimpl')->name('erpimpl');

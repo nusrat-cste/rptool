@@ -97,7 +97,11 @@ class DashboardController extends Controller
             throw new \Exception('You are not supposed to do that!');
         }
 
+        //is it possible to redirect based on different user?
+        
         return redirect()->route('frontend.user.dashboard')
-                        ->with('flash_success', 'Your feedback has been submitted successfully!');
+                    ->with('flash_success', 'Your feedback has been submitted successfully!');
+
+
     }
 }
