@@ -17,7 +17,7 @@
             </div><!-- /.box tools -->
         </div>
         
-    <form action="{{ route('frontend.user.dashboard.project.feedback', $project->id) }}" method="POST">
+    <form action="{{ route('admin.erpimpl.post', $project->id) }}" method="POST">
 
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
 

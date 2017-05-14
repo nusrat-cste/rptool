@@ -11,6 +11,8 @@ Route::get('projects/{id}/reprotizer', 'RequirementsController@reprotizer')->nam
 
 Route::get('projects/{id}/erpimpl', 'RequirementsController@erpimpl')->name('erpimpl');
 
+Route::post('projects/{id}/erpimpl', 'RequirementsController@implByAdmin')->name('erpimpl.post');
+
 
 Route::resource('projects', 'ProjectsController');
 

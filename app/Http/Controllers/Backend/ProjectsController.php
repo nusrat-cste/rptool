@@ -121,11 +121,13 @@ class ProjectsController extends Controller
      */
     public function destroy($id)
     {
-         $project = Project::findOrFail($id);
+        $project = Project::findOrFail($id);
 
-            $project->delete();
+        $project->requirements()->delete();
+        $project->delete();
 
-      Session::flash('flash_message', 'Task successfully deleted!');
+        Session::flash('flash_message', 'Task successfully deleted!');
 
-    return redirect('/admin/projects');}
+        return redirect('/admin/projects');
+    }
 }

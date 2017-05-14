@@ -17,13 +17,52 @@
             </div><!-- /.box tools -->
         </div>
 
-    <div class="box box-success">
+        <div class="box box-success">
+            <table id="dt-table" class="table table-bordered table-hover dataTable">
+                <thead>
+                    <tr>
+                        <th style="width: 10px">#</th>
+                        <th>Requirement Name</th>
+                        <th>Prioritize Rank</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($feedbacks as $key => $feedback)
+                        <tr>
+                            <td>{{ ++$key }}</td>
+                            <td>{{ $feedback->requirement->requirement_name }}</td>
+                            <td>{{ $feedback->implResult }}</td>
+                        </tr>
+                        <br/>
+                    @endforeach
+                </tbody>
+            </table>
+        </div><!--box box-success-->
 
-        @for($i = $noR - 1; $i>=0; $i--)    <!-- i=numofrequirement-1 -->
-                            <br/>
-                         {{ substr(number_format($sumArray[$i], $precision+1, '.', ''), 0, -1) }}
-                        @endfor
-           </div><!--box box-success-->
 
+@endsection
 
+@section('after-styles')
+     <link rel="stylesheet" href="{{ asset('css/backend/plugin/datatables/dataTables.bootstrap.min.css') }}" />
+@endsection
+
+@section('after-scripts')
+     <script src="{{ asset('js/backend/plugin/datatables/jquery.dataTables.min.js') }}"></script>
+     <script src="{{ asset('js/backend/plugin/datatables/dataTables.bootstrap.min.js') }}"></script>
+
+         <script>
+//             $('#dt-table').DataTable({
+//                 "bPaginate": false
+//             });
+             $(function () {
+                 $('#dt-table').DataTable({
+                     "paging": true,
+                     "lengthChange": true,
+                     "ordering": true,
+                     "info": false,
+                     "autoWidth": false,
+                     "iDisplayLength": 20
+                 });
+             });
+         </script>
 @endsection

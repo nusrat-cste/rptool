@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\Access\User\User;
 use App\Models\Feedback;
 use App\Models\Project;
 use App\Models\Requirement;
@@ -39,7 +40,8 @@ class RequirementsController extends Controller
 
      * @return \Illuminate\Http\Response
      */
-    public function erpimplform($projectId){
+    public function erpimplform($projectId)
+    {
         $data = [
             'requirements' => [],
         ];
@@ -51,6 +53,17 @@ class RequirementsController extends Controller
         }
 
         $data['requirements'] = $data['project']->requirements;
+
+        $userId = access()->user()->id;
+
+        $feedbacks = Feedback::where('stakeholder_id', $userId)
+                            ->where('project_id', $projectId)
+                            ->get();
+
+        if (count($feedbacks)) {
+            $data['feedbacks'] = $feedbacks;
+        }
+
         return view('backend.requirements.erpimplform', $data);
 
     }
@@ -147,8 +160,9 @@ class RequirementsController extends Controller
         return view('backend.requirements.reprotizer', $data);
     }
 
-    public function erpimpl($projectId){
-          $data = [
+    public function erpimpl($projectId)
+    {
+        $data = [
             'requirements' => [],
         ];
 
@@ -158,16 +172,75 @@ class RequirementsController extends Controller
             abort(404);
         }
 
-        $data['requirements'] = $data['project']->requirements;
-       // $data['stakeholders'] = $data['project']->stakeholders;
+        /* For multiple admins */
+/*        $adminIds = User::whereHas('Roles', function ($q) {
+            $q->where('name', 'Administrator');
+        })->pluck('id');*/
 
+        $data['feedbacks'] = Feedback::where('stakeholder_id', access()->user()->id)->where('project_id', $projectId)->get();
+
+        $data['requirements'] = $data['project']->requirements;
+
+//        foreach ($feedbacks as $feedback) {
+//            $data['impl'][$feedback->requirement_id] = $feedback->implResult;
+//        }
+//
+//        dd($data['impl']);
 
        // $noS    = count($data['project']->stakeholders); //number of stakeholder - assume 3
-        $noR    = count($data['project']->requirements); //number of requirements - assume 4
-
-    
+        $data['noR']    = count($data['project']->requirements); //number of requirements - assume 4
         
         return view('backend.requirements.erpimpl', $data);
+    }
+
+    public function implByAdmin(Request $request, $id)
+    {
+        $project = Project::find($id);
+
+        if( ! $project instanceof Project) {
+            abort(404);
+        }
+
+        $inputs = $request->except('_token');
+
+        if (\Auth::check()) {
+            $user = access()->user();
+        } else {
+            throw new \Exception('User is not logged in!');
+        }
+
+        if($request->has('requirement_id')) {
+            $requirementIdArray = $inputs['requirement_id'];
+            $businessValueArray = $inputs['business_value'];
+            $effortArray        = $inputs['effort'];
+            $alternativesArray  = $inputs['alternatives'];
+            $reusabilityArray   = $inputs['reusability'];
+            $weightArray        = $inputs['weight'];
+
+            foreach ($requirementIdArray as $requirementId) {
+                $key = array_search($requirementId, $requirementIdArray);
+
+                $requirementData[$requirementId] = [];
+
+                $requirementData[$requirementId]['project_id']        = $id;
+                $requirementData[$requirementId]['business_value']    = $businessValueArray[$key];
+                $requirementData[$requirementId]['effort']            = $effortArray[$key];
+                $requirementData[$requirementId]['alternatives']      = $alternativesArray[$key];
+                $requirementData[$requirementId]['reusability']       = $reusabilityArray[$key];
+                $requirementData[$requirementId]['weight']            = $weightArray[$key];
+            }
+
+            $user->requirements()->wherePivot('project_id', $project->id)->sync($requirementData);
+        } else {
+            throw new \Exception('You are not supposed to do that!');
+        }
+
+        //is it possible to redirect based on different user?
+
+        return redirect()->route('admin.projects.show', $id)
+            ->with('flash_success', 'Your feedback has been submitted successfully!');
+
+
     }
 
 
@@ -292,9 +365,10 @@ class RequirementsController extends Controller
         $project = $this->project->find($projectId);
         $requirement = $this->requirement->find($id);
 
-            $requirement->delete();
-//
-      return redirect()->route('admin.projects.requirements.destroy', $project->id)->with('flash_message', 'requirement successfully deleted!'); //return to show all req
+        $requirement->stakeholders()->detach();
+        $requirement->delete();
+
+      return redirect()->route('admin.projects.requirements.index', $project->id)->with('flash_message', 'requirement successfully deleted!'); //return to show all req
     //Redirect::to('/admin/projects')->with('message', 'successfully added!');
     }
 }
