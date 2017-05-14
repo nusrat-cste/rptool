@@ -127,31 +127,22 @@ class RequirementsController extends Controller
         // first, multiply the weights with $noF
         // then, divide the result with $noR
 
-        foreach ($weights as $key1 => $weight) {
-            foreach ($weight as $k2 => $wg) {
-                $weights[$key1][$k2] = $wg * $noF;
-                $weights[$key1][$k2] = $weights[$key1][$k2] / $noR;
-            }
-        }
-
-//        dd($weights);
-
         // now, square the result
         // and then sum the total weight square result for individual stakeholders
         $sumTotalWeights = [];
         $sumValue = 0;
 
-        foreach ($weights as $key3 => $sqresultValue) { // stakeholders
-            foreach ($sqresultValue as $k3 => $sqrslt) { // weight
-                $weights[$key3][$k3] = $sqrslt * $sqrslt;
-                $sumValue += $weights[$key3][$k3];
+        foreach ($weights as $key1 => $weight) {
+            foreach ($weight as $k2 => $wg) {
+                $weights[$key1][$k2] = $wg * $noF;
+                $weights[$key1][$k2] = $weights[$key1][$k2] / $noR;
+                $weights[$key1][$k2] = pow($weights[$key1][$k2], 2);
+                $sumValue += $weights[$key1][$k2];
             }
-            $sumTotalWeights[$key3] = $sumValue;
+            $sumTotalWeights[$key1] = $sumValue;
             $sumValue = 0;
         }
 
-//        dd($sumTotalWeights);
-//        dd($weights);
         // divide individual weight square with the sum result
         foreach ($weights as $key4 => $value) { // stakeholders
             foreach ($value as $k4 => $val) { // weight
@@ -195,49 +186,6 @@ class RequirementsController extends Controller
             $requirementWithName[$requirement['requirement_id']]['requirement_name'] = $requirement['requirement_name'];
         }
         dd($requirementWithName);*/
-
-
-        // previous code
-/*
-        for ($row = 0; $row < $noF; $row++)  //row=number of stakeholder
-        {
-            $tempSum=0;
-
-            for ($col = 0; $col < $noR; $col++) //col=number of requirements
-            {
-                $temp                   = $weights[$row][$col] * $noF;
-                $div                    = $temp/$noR;
-                $weights[$row][$col]    = $div;
-                $square                 = $weights[$row][$col] * $weights[$row][$col] ;
-                $sumArray[$row][$col]   = $square;
-
-                $tempSum += $square;
-            }
-
-            $rowsum[$row] = $tempSum;
-
-            for($k = 0; $k< $noR ; $k++){          //k=number of requirements
-                 $tempVal           =$sumArray[$row][$k] / $rowsum[$row];
-                $sumArray[$row][$k] = $tempVal;
-
-                $number=$sumArray[$row][$k];
-                $precision = 3;
-            }
-        }
-
-        for($i=0; $i< $noR; $i++){          //i=number of requirements
-            $Sum = 0;
-            for($j=0; $j< $noF; $j++){      //j=number of stakeholders
-                $Sum += $sumArray[$j][$i];
-            }
-            $sumArry[$i] = $Sum;
-            $final[$i]=$sumArry[$i];
-            sort($final);
-        }
-
-        $data['noR']        = $noR;
-        $data['final']      = $final;
-        $data['precision']  = $precision;*/
 
         return view('backend.requirements.reprotizer', $data);
     }
