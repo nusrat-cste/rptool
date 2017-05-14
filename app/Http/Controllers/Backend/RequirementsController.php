@@ -75,7 +75,8 @@ class RequirementsController extends Controller
 
      * @return \Illuminate\Http\Response
      */
-    public function reprotizer($projectId){
+    public function reprotizer($projectId)
+    {
          $data = [
             'requirements' => [],
         ];
@@ -209,6 +210,10 @@ class RequirementsController extends Controller
 
         $data['feedbacks'] = Feedback::where('stakeholder_id', access()->user()->id)->where('project_id', $projectId)->get();
 
+        if(count($data['feedbacks']) < 1) {
+            return redirect()->route('admin.projects.show', $projectId)->with('flash_warning', 'There is no value provided yet for calculation.');
+        }
+
         $data['requirements'] = $data['project']->requirements;
 
 //        foreach ($feedbacks as $feedback) {
@@ -245,7 +250,7 @@ class RequirementsController extends Controller
             $effortArray        = $inputs['effort'];
             $alternativesArray  = $inputs['alternatives'];
             $reusabilityArray   = $inputs['reusability'];
-            $weightArray        = $inputs['weight'];
+//            $weightArray        = $inputs['weight'];
 
             foreach ($requirementIdArray as $requirementId) {
                 $key = array_search($requirementId, $requirementIdArray);
@@ -257,7 +262,7 @@ class RequirementsController extends Controller
                 $requirementData[$requirementId]['effort']            = $effortArray[$key];
                 $requirementData[$requirementId]['alternatives']      = $alternativesArray[$key];
                 $requirementData[$requirementId]['reusability']       = $reusabilityArray[$key];
-                $requirementData[$requirementId]['weight']            = $weightArray[$key];
+//                $requirementData[$requirementId]['weight']            = $weightArray[$key];
             }
 
             $user->requirements()->wherePivot('project_id', $project->id)->sync($requirementData);

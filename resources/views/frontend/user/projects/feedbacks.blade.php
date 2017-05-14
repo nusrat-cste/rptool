@@ -24,8 +24,11 @@
                                         <div class="panel-body">
                                             <!-- This is the place where we will be going to add the form -->
 
-                                            @include('frontend.user.projects.feedback-form')
-                                              
+                                            <div class="col-md-offset-2 col-md-6">
+                                                @include('frontend.user.projects.feedback-form')
+                                            </div>
+                                            <div class="col-md-4"></div>
+
                                         </div><!--panel-body-->
                                     </div><!--panel-->
                                 </div><!--col-xs-12-->

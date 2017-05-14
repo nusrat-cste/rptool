@@ -73,10 +73,10 @@ class DashboardController extends Controller
 
         if($request->has('requirement_id')) {
             $requirementIdArray = $inputs['requirement_id'];
-            $businessValueArray = $inputs['business_value'];
-            $effortArray        = $inputs['effort'];
-            $alternativesArray  = $inputs['alternatives'];
-            $reusabilityArray   = $inputs['reusability'];
+//            $businessValueArray = $inputs['business_value'];
+//            $effortArray        = $inputs['effort'];
+//            $alternativesArray  = $inputs['alternatives'];
+//            $reusabilityArray   = $inputs['reusability'];
             $weightArray        = $inputs['weight'];
 
             foreach ($requirementIdArray as $requirementId) {
@@ -85,10 +85,10 @@ class DashboardController extends Controller
                 $requirementData[$requirementId] = [];
 
                 $requirementData[$requirementId]['project_id']        = $id;
-                $requirementData[$requirementId]['business_value']    = $businessValueArray[$key];
-                $requirementData[$requirementId]['effort']            = $effortArray[$key];
-                $requirementData[$requirementId]['alternatives']      = $alternativesArray[$key];
-                $requirementData[$requirementId]['reusability']       = $reusabilityArray[$key];
+//                $requirementData[$requirementId]['business_value']    = $businessValueArray[$key];
+//                $requirementData[$requirementId]['effort']            = $effortArray[$key];
+//                $requirementData[$requirementId]['alternatives']      = $alternativesArray[$key];
+//                $requirementData[$requirementId]['reusability']       = $reusabilityArray[$key];
                 $requirementData[$requirementId]['weight']            = $weightArray[$key];
             }
 
