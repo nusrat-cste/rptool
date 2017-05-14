@@ -23,10 +23,29 @@
                 <div class="col-md-9 col-md-offset-3">
                     <!-- This is where the algorithm will be resulted -->
                     <h4>Prioritized list</h4>
-                        @for($i = $noR - 1; $i>=0; $i--)    <!-- i=numofrequirement-1 -->
+
+                    <table id="dt-table" class="table table-bordered table-hover dataTable">
+                        <thead>
+                        <tr>
+                            <th style="width: 10px">Requirement ID</th>
+                            <th>Requirement Name</th>
+                            <th>Prioritize Rank</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($final as $key => $item)
+                            <tr>
+                                <td>{{ $key }}</td>
+                                @php
+                                    $requirement = \App\Models\Requirement::find($key);
+                                @endphp
+                                <td>{{ $requirement->requirement_name or '' }}</td>
+                                <td>{{ number_format($item['reprotizer'], 4) }}</td>
+                            </tr>
                             <br/>
-                         {{ substr(number_format($final[$i], $precision+1, '.', ''), 0, -1) }}
-                        @endfor
+                        @endforeach
+                        </tbody>
+                    </table>
                 </div>
 
                 <div class="box-tools">
@@ -39,4 +58,26 @@
     </div><!--box box-success-->
 
 
+@endsection
+
+@section('after-styles')
+    <link rel="stylesheet" href="{{ asset('css/backend/plugin/datatables/dataTables.bootstrap.min.css') }}" />
+@endsection
+
+@section('after-scripts')
+    <script src="{{ asset('js/backend/plugin/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('js/backend/plugin/datatables/dataTables.bootstrap.min.js') }}"></script>
+
+    <script>
+        $(function () {
+            $('#dt-table').DataTable({
+                "paging": false,
+                "lengthChange": false,
+                "ordering": true,
+                "info": false,
+                "autoWidth": false,
+                "iDisplayLength": 20
+            });
+        });
+    </script>
 @endsection

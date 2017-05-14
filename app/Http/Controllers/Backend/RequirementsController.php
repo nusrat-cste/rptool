@@ -89,73 +89,161 @@ class RequirementsController extends Controller
         $data['requirements'] = $data['project']->requirements;
         $data['stakeholders'] = $data['project']->stakeholders;
 
+        $adminIds = User::whereHas('Roles', function ($q) {
+            $q->where('name', 'Administrator');
+        })->pluck('id');
 
         $noS    = count($data['project']->stakeholders); //number of stakeholder - assume 3
         $noR    = count($data['project']->requirements); //number of requirements - assume 4
 
-        $feedbacks = $data['project']->feedbacks;
+        $userFeedbacks = Feedback::where('project_id', $projectId)->select('*')
+                                    ->whereNotIn('stakeholder_id', $adminIds)
+                                    ->groupBy('stakeholder_id')->get();
 
-        foreach ($feedbacks as $feedback) {
-            $weights[$feedback->stakeholder_id][] = $feedback->weight;
+        $noF = count($userFeedbacks);
+
+        $feedbacks = Feedback::where('project_id', $projectId)->select('*')
+                                ->whereNotIn('stakeholder_id', $adminIds)
+                                ->get();
+
+        $weights = [];
+
+        if(count($feedbacks) < 2) {
+            return redirect()->route('admin.projects.show', $projectId)->with('flash_warning', 'Minimum two stakeholder need to submit their feedback.');
         }
 
-        $weights = array_values($weights);
+        foreach ($feedbacks as $feedback) {
+            $weights[$feedback->stakeholder_id][$feedback->requirement_id] = $feedback->weight;
+//            $weights[$feedback->stakeholder_id][] = $feedback->weight;
+        }
+
+//        dd($weights);
+//        $weights = array_values($weights);
 
         $sumArray = [];
         $rowSum=[];
 
-        // currently, this code only works if all the stakeholder submit
-        // their feedback for all the requirements of a specific project
 
-        for ($row = 0; $row < $noS; $row++)  //row=number of stakeholder
+        // first, multiply the weights with $noF
+
+        foreach ($weights as $key1 => $weight) {
+            foreach ($weight as $k2 => $wg) {
+                $weights[$key1][$k2] = $wg * $noF;
+            }
+        }
+
+//        dd($result1);
+        // then, divide the result with $noR
+        foreach ($weights as $key2 => $resultValue) {
+            foreach ($resultValue as $k2 => $rslt) {
+                $weights[$key2][$k2] = $rslt / $noR;
+            }
+        }
+
+//        dd($weights);
+
+        // now, square the result
+        // and then sum the total weight square result for individual stakeholders
+        $sumTotalWeights = [];
+        $sumValue = 0;
+
+        foreach ($weights as $key3 => $sqresultValue) { // stakeholders
+            foreach ($sqresultValue as $k3 => $sqrslt) { // weight
+                $weights[$key3][$k3] = $sqrslt * $sqrslt;
+                $sumValue += $weights[$key3][$k3];
+            }
+            $sumTotalWeights[$key3] = $sumValue;
+            $sumValue = 0;
+        }
+
+//        dd($sumTotalWeights);
+//        dd($weights);
+        // divide individual weight square with the sum result
+        foreach ($weights as $key4 => $value) { // stakeholders
+            foreach ($value as $k4 => $val) { // weight
+                $weights[$key4][$k4] = $val / $sumTotalWeights[$key4];
+            }
+        }
+
+//        dd($weights);
+
+
+        $sumFinal = 0;
+        $rowFinal = [];
+        $columnFinal = [];
+        // sum s1[w] + s2[w]
+
+        foreach ($weights as $k => $v) {
+            foreach ($v as $ky => $item) {
+                $rowFinal[$ky][$k] = $item;
+            }
+        }
+
+        foreach ($rowFinal as $rowKey => $requirement) {
+            foreach ($requirement as $k => $stackholder) {
+                $sumFinal += $stackholder;
+            }
+            $columnFinal[$rowKey]['reprotizer'] = $sumFinal;
+            $sumFinal = 0;
+        }
+
+//        dd($columnFinal);
+        $data['final'] = $columnFinal;
+//        dd($data);
+
+/*        $requirementIds = array_keys($data['final']);
+        $requirements = Requirement::whereIn('requirement_id', $requirementIds)
+                                            ->select('requirement_id', 'requirement_name')->get()->toArray();
+
+        $requirementWithName = [];
+                dd($requirements);
+        foreach ($requirements as $requirement) {
+            $requirementWithName[$requirement['requirement_id']]['requirement_name'] = $requirement['requirement_name'];
+        }
+        dd($requirementWithName);*/
+
+
+        // previous code
+/*
+        for ($row = 0; $row < $noF; $row++)  //row=number of stakeholder
         {
             $tempSum=0;
-            echo "</br>";
+
             for ($col = 0; $col < $noR; $col++) //col=number of requirements
             {
-                $temp=$weights[$row][$col]*3;
-                $div = $temp/4;
-                //$temp=$temp*$temp;
-                $weights[$row][$col] = $div;
-                $square=$weights[$row][$col] *$weights[$row][$col] ;
-                $sumArray[$row][$col]=$square;
-                //echo $sumArray[$row][$col];
+                $temp                   = $weights[$row][$col] * $noF;
+                $div                    = $temp/$noR;
+                $weights[$row][$col]    = $div;
+                $square                 = $weights[$row][$col] * $weights[$row][$col] ;
+                $sumArray[$row][$col]   = $square;
 
                 $tempSum += $square;
-
-                echo " ";
-                //echo "tempsum = ".$tempSum;
             }
 
-            $rowsum[$row]=$tempSum;
+            $rowsum[$row] = $tempSum;
+
             for($k = 0; $k< $noR ; $k++){          //k=number of requirements
-                //echo " ".$sumArray[$row][$k];
-                $tempVal=$sumArray[$row][$k] / $rowsum[$row];
+                 $tempVal           =$sumArray[$row][$k] / $rowsum[$row];
                 $sumArray[$row][$k] = $tempVal;
 
                 $number=$sumArray[$row][$k];
                 $precision = 3;
-
-                //echo " ";
-                //echo substr(number_format($number, $precision+1, '.', ''), 0, -1);
             }
         }
 
         for($i=0; $i< $noR; $i++){          //i=number of requirements
             $Sum = 0;
-            for($j=0; $j< $noS; $j++){      //j=number of stakeholders
+            for($j=0; $j< $noF; $j++){      //j=number of stakeholders
                 $Sum += $sumArray[$j][$i];
             }
             $sumArry[$i] = $Sum;
-            //echo $sumArry[$i]." ";
             $final[$i]=$sumArry[$i];
-            //echo $final[$i];
             sort($final);
         }
-        //$data['req_names']  =$req_names;
+
         $data['noR']        = $noR;
         $data['final']      = $final;
-        $data['precision']  = $precision;
+        $data['precision']  = $precision;*/
 
         return view('backend.requirements.reprotizer', $data);
     }
@@ -315,8 +403,11 @@ class RequirementsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \laravel 5 boilerplate\Models\Requirement  $requirement
-    */
+     * @param $projectId
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @internal param $ \laravel 5 boilerplate\Models\Requirement  $requirement
+     */
     public function edit($projectId, $id)
     {
         
