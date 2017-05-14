@@ -125,18 +125,12 @@ class RequirementsController extends Controller
 
 
         // first, multiply the weights with $noF
+        // then, divide the result with $noR
 
         foreach ($weights as $key1 => $weight) {
             foreach ($weight as $k2 => $wg) {
                 $weights[$key1][$k2] = $wg * $noF;
-            }
-        }
-
-//        dd($result1);
-        // then, divide the result with $noR
-        foreach ($weights as $key2 => $resultValue) {
-            foreach ($resultValue as $k2 => $rslt) {
-                $weights[$key2][$k2] = $rslt / $noR;
+                $weights[$key1][$k2] = $weights[$key1][$k2] / $noR;
             }
         }
 
